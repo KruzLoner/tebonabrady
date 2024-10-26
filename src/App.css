@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --primary-color: #333333;
+  --secondary-color: #666666;
+  --background-light: #F5F9FF;
+  --transition-speed: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--primary-color);
+  line-height: 1.6;
+}
+
+
+
+/* Navigation styles */
+nav a {
+  position: relative;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: color var(--transition-speed) ease;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width var(--transition-speed) ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Hero section styles */
+.hero-section {
+  background-color: var(--background-light);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content h1 {
+  font-weight: 300;
+  letter-spacing: 2px;
+  line-height: 1.4;
+}
+
+/* Collection button styles */
+.collection-button {
+  @apply relative inline-block cursor-pointer transition-all duration-300 ease-in-out;
+  @apply text-gray-800 font-medium no-underline;
+  @apply hover:text-gray-600;
+}
+
+.collection-button::after {
+  @apply content-[''] absolute w-full h-0.5 bg-gray-800 left-0 bottom-0;
+  @apply scale-x-0 origin-right transition-transform duration-300 ease-in-out;
+}
+
+.collection-button:hover::after {
+  @apply scale-x-100 origin-left;
+}
+
+/* Logo styles */
+.logo {
+  font-size: 24px;
+  letter-spacing: 4px;
+  font-weight: 300;
+}
+
+/* Icon styles */
+.icon-button {
+  cursor: pointer;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.icon-button:hover {
+  opacity: 0.7;
+}
+
+/* Collection section styles */
+.collection-year {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: var(--secondary-color);
+}
+
+.collection-title {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  nav {
+    padding: 1rem 0;
+  }
+
+  nav a {
+    font-size: 12px;
+  }
+
+  .hero-content h1 {
+    font-size: 24px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Utility classes */
+.text-light {
+  font-weight: 300;
+}
+
+.letter-spacing-wide {
+  letter-spacing: 1.5px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.hover-opacity {
+  transition: opacity var(--transition-speed) ease;
+}
+
+.hover-opacity:hover {
+  opacity: 0.8;
+}
+
+/* Custom styles for new components */
+.navbar-brand {
+  @apply font-bold text-blue-500;
+}
+
+.card {
+  @apply transition duration-200 ease-in-out;
+}
+
+.card:hover {
+  @apply transform -translate-y-1;
+}
+
+.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded;
+}
+
+/* Add this to your existing styles */
+.navbar-brand.no-underline {
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+/* Product Card specific styles */
+.product-card-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card-hover-effect:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Image zoom animation */
+.zoom-effect {
+  transition: transform 0.7s ease;
+}
+
+.zoom-effect:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth fade animations */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Custom hover animations */
+@keyframes buttonSlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.button-slide-up {
+  animation: buttonSlideUp 0.3s ease forwards;
+}
