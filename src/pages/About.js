@@ -35,15 +35,14 @@ function About() {
             </p>
           </div>
 
-          <div className="flex justify-center lg:justify-start space-x-6 mt-8 sm:mt-10">
-            <a href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300">
-              <Twitter size={20} />
-            </a>
-            <a href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300">
-              <Facebook size={20} />
-            </a>
-            <a href="#" className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300">
-              <Instagram size={20} />
+          <div className="flex justify-center lg:justify-start mt-8 sm:mt-10">
+            <a
+              href="https://instagram.com/satamashobyteo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-300"
+            >
+              <Instagram size={24} />
             </a>
           </div>
         </div>
