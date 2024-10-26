@@ -4,18 +4,22 @@ import ProductCard from '../components/ProductCard';
 
 const Home = () => {
   const [springCollection, setSpringCollection] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        console.log('Fetching spring collection products...');
         const response = await fetch('http://localhost:3001/api/products');
         if (!response.ok) {
           throw new Error('Failed to fetch spring collection');
         }
         const data = await response.json();
+        console.log('Received data:', data);
         setSpringCollection(data.products);
       } catch (error) {
         console.error('Error fetching spring collection products:', error);
+        setError(error.message);
       }
     };
 
@@ -53,25 +57,42 @@ const Home = () => {
       {/* Collection Section */}
       <div className="bg-gray-50 dark:bg-gray-900 py-16 px-6">
         <div className="container mx-auto">
-          <div className="text-sm text-gray-600 dark:text-gray-400 mb-4 text-center">2025 - COLLECTION</div>
-          <h2 className="text-3xl text-center text-gray-800 dark:text-gray-200 mb-12 font-light">Spring 2025 Collection</h2>
+          <div className="text-sm text-gray-600 dark:text-gray-400 mb-4 text-center">SPECIAL OFFERS</div>
+          <h2 className="text-3xl text-center text-gray-800 dark:text-gray-200 mb-12 font-light">Featured Products</h2>
 
           {/* Product Cards */}
           <div className="flex justify-center">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl">
-              {springCollection.map((product) => (
-                <div key={product.id} className="flex justify-center">
-                  <ProductCard
-                    id={product.id}
-                    title={product.title}
-                    price={product.price}
-                    imageUrl={product.imageUrl}
-                    isNew={product.isNew}
-                    category={product.category}
-                  />
-                </div>
-              ))}
-            </div>
+            {error ? (
+              <p className="text-red-500">{error}</p>
+            ) : springCollection.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl">
+                {springCollection.map((product) => (
+                  <div key={product.id} className="flex justify-center">
+                    <ProductCard
+                      id={product.id}
+                      title={product.title}
+                      price={product.price}
+                      originalPrice={product.originalPrice}
+                      imageUrl={product.imageUrl}
+                      isNew={product.isNew}
+                      category={product.category}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600 dark:text-gray-400">No products available in the Spring 2025 Collection.</p>
+            )}
+          </div>
+
+          {/* View All button */}
+          <div className="text-center mt-12">
+            <Link
+              to="/shop"
+              className="inline-block bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-gray-700 dark:hover:bg-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              View All Products
+            </Link>
           </div>
         </div>
       </div>

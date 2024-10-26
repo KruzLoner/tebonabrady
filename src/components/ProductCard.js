@@ -7,10 +7,13 @@ const ProductCard = ({
   id,
   title,
   price,
+  originalPrice,
   imageUrl,
   isNew,
   category,
 }) => {
+  console.log(`ProductCard for ${title}:`, { price, originalPrice });
+
   const { addToCart, toggleFavorite, isFavorite } = useShopContext();
   const navigate = useNavigate();
   const productId = id || title;
@@ -99,7 +102,12 @@ const ProductCard = ({
           {title}
         </h3>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-light text-gray-900 dark:text-white">${price}</span>
+          <div className="flex items-center space-x-2">
+            <span className="text-sm font-light text-gray-900 dark:text-white">${price}</span>
+            {originalPrice && (
+              <span className="text-xs font-light text-gray-500 line-through">${originalPrice}</span>
+            )}
+          </div>
           <div className="flex space-x-2">
             <button
               onClick={handleAddToCart}

@@ -28,14 +28,16 @@ app.get('/api/all-products', async (req, res) => {
 
     const formattedProducts = allProducts.data.map(product => {
       const price = product.default_price ? (product.default_price.unit_amount / 100).toFixed(2) : 'N/A';
+      const originalPrice = product.metadata.original_price ? (parseInt(product.metadata.original_price) / 100).toFixed(2) : null;
 
       return {
         id: product.id,
         title: product.name,
         price,
+        originalPrice,
         imageUrl: product.images[0] || `https://via.placeholder.com/300x400?text=${product.name}`,
         isNew: product.created > Date.now() - 7 * 24 * 60 * 60 * 1000, // New if created in the last week
-        category: product.metadata.category || 'Uncategorized',
+        category: product.metadata.category || 'Other',
       };
     });
 
