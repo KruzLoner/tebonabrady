@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { Heart, ShoppingBag, Plus } from 'lucide-react';
 import { useShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
+import config from '../config';
 
 const ProductCard = ({
   id,
@@ -28,7 +29,7 @@ const ProductCard = ({
 
   const handleBuyNow = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/create-checkout-session', {
+      const response = await fetch(`${config.apiBaseUrl}/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

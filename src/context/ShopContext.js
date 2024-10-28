@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
+import config from '../config';
 
 const ShopContext = createContext();
 
@@ -20,7 +21,7 @@ export const ShopProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/all-products');
+        const response = await fetch(`${config.apiBaseUrl}/api/all-products`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

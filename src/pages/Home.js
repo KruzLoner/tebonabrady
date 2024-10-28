@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import config from '../config';
 
 const Home = () => {
   const [springCollection, setSpringCollection] = useState([]);
@@ -10,7 +11,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         console.log('Fetching spring collection products...');
-        const response = await fetch('http://localhost:3001/api/products');
+        const response = await fetch(`${config.apiBaseUrl}/api/products`);
         if (!response.ok) {
           throw new Error('Failed to fetch spring collection');
         }

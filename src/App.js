@@ -25,6 +25,7 @@ import './App.css';
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const App = () => {
+console.log(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCustomerServiceOpen, setIsCustomerServiceOpen] = useState(false);
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);

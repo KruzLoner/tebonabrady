@@ -6,25 +6,33 @@ const { getProducts } = require('./functions/get-products');
 const path = require('path');
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
+// Configure CORS for both development and production
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://sabaportfolio.com/', 'https://sabaportfolio.com/']  // Add your actual domain
+    : 'http://localhost:3000',
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+// Serve static files from the React app in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'build')));
+}
 
 // API routes
 app.get('/api/products', getProducts);
 
-// Add this new route
 app.get('/api/all-products', async (req, res) => {
   try {
     console.log('Fetching all products from Stripe...');
     const allProducts = await stripe.products.list({
       expand: ['data.default_price'],
-      limit: 100, // Adjust this if you have more than 100 products
+      limit: 100,
     });
-
-    console.log(`Fetched ${allProducts.data.length} products from Stripe`);
 
     const formattedProducts = allProducts.data.map(product => {
       const price = product.default_price ? (product.default_price.unit_amount / 100).toFixed(2) : 'N/A';
@@ -36,12 +44,11 @@ app.get('/api/all-products', async (req, res) => {
         price,
         originalPrice,
         imageUrl: product.images[0] || `https://via.placeholder.com/300x400?text=${product.name}`,
-        isNew: product.created > Date.now() - 7 * 24 * 60 * 60 * 1000, // New if created in the last week
+        isNew: product.created > Date.now() - 7 * 24 * 60 * 60 * 1000,
         category: product.metadata.category || 'Other',
       };
     });
 
-    console.log(`Sending ${formattedProducts.length} formatted products to client`);
     res.json({ products: formattedProducts });
   } catch (error) {
     console.error('Error fetching all products:', error);
@@ -49,22 +56,12 @@ app.get('/api/all-products', async (req, res) => {
   }
 });
 
-// All other GET requests not handled before will return the React app
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
-
-if (!process.env.STRIPE_SECRET_KEY) {
-  console.error('STRIPE_SECRET_KEY is not set!');
-  process.exit(1);
-}
-
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
-
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const { cart } = req.body;
-    console.log('Received cart:', cart);
+    const FRONTEND_URL = process.env.NODE_ENV === 'production'
+      ? 'https://your-live-domain.com'
+      : 'http://localhost:3000';
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -96,14 +93,12 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-app.get('/session-status', async (req, res) => {
-  const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
-
-  res.send({
-    status: session.status,
-    customer_email: session.customer_details.email
+// Catch-all route to serve React app in production
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
-});
+}
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
