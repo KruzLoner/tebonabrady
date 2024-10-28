@@ -24,7 +24,35 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // API routes
-app.get('/api/products', getProducts);
+app.get('/api/products', async (req, res) => {
+  try {
+    console.log('Fetching products from Stripe...');
+    const products = await stripe.products.list({
+      expand: ['data.default_price'],
+      limit: 100,
+    });
+
+    const formattedProducts = products.data.map(product => {
+      const price = product.default_price ? (product.default_price.unit_amount / 100).toFixed(2) : 'N/A';
+      const originalPrice = product.metadata.original_price ? (parseInt(product.metadata.original_price) / 100).toFixed(2) : null;
+
+      return {
+        id: product.id,
+        title: product.name,
+        price,
+        originalPrice,
+        imageUrl: product.images[0] || `https://via.placeholder.com/300x400?text=${product.name}`,
+        isNew: product.created > Date.now() - 7 * 24 * 60 * 60 * 1000,
+        category: product.metadata.category || 'Other',
+      };
+    });
+
+    res.json({ products: formattedProducts });
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
 
 app.get('/api/all-products', async (req, res) => {
   try {
