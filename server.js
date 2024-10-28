@@ -10,7 +10,7 @@ const app = express();
 // Configure CORS for both development and production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://tebona.netlify.app/', 'https://ebona.netlify.app/']  // Add your actual domain
+    ? ['https://your-vercel-project-url.vercel.app']
     : 'http://localhost:3000',
   credentials: true
 };

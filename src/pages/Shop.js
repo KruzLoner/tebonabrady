@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useShopContext } from '../context/ShopContext';
 import ProductCard from '../components/ProductCard';
+import config from '../config';
 
 const Shop = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -14,7 +15,7 @@ const Shop = () => {
     const fetchAllProducts = async () => {
       try {
         console.log('Fetching all products...');
-        const response = await fetch('http://localhost:3001/api/all-products');
+        const response = await fetch(`${config.apiBaseUrl}api/all-products`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
