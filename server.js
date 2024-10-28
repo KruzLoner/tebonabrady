@@ -10,7 +10,7 @@ const app = express();
 // Configure CORS for both development and production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://sabaportfolio.com/', 'https://sabaportfolio.com/']  // Add your actual domain
+    ? ['https://tebona.netlify.app/', 'https://ebona.netlify.app/']  // Add your actual domain
     : 'http://localhost:3000',
   credentials: true
 };

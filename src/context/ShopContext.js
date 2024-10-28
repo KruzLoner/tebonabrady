@@ -21,7 +21,7 @@ export const ShopProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${config.apiBaseUrl}/api/all-products`);
+        const response = await fetch(`${config.apiBaseUrl}api/all-products`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
