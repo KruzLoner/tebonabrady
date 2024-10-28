@@ -3,6 +3,7 @@ import { useShopContext } from '../context/ShopContext';
 import { X } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
+import config from '../config';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -18,7 +19,7 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      const response = await fetch('https://tebonabrady.vercel.app/create-checkout-session', {
+      const response = await fetch(`${config.apiBaseUrl}create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

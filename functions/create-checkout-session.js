@@ -7,7 +7,7 @@ exports.handler = async function(event, context) {
 
   try {
     const { cart } = JSON.parse(event.body);
-    const FRONTEND_URL = process.env.NODE_ENV === 'production'
+    const FRONTEND_URL = process.env.NODE_ENV === 'development'
       ? 'https://tebonabrady.vercel.app'
       : 'http://localhost:3000';
 
