@@ -10,7 +10,7 @@ const app = express();
 // Configure CORS for both development and production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://your-vercel-project-url.vercel.app']
+    ? ['tebonabrady.vercel.app']
     : 'http://localhost:3000',
   credentials: true
 };
@@ -60,7 +60,7 @@ app.post('/create-checkout-session', async (req, res) => {
   try {
     const { cart } = req.body;
     const FRONTEND_URL = process.env.NODE_ENV === 'production'
-      ? 'https://your-live-domain.com'
+      ? 'https://tebonabrady.vercel.app'
       : 'http://localhost:3000';
 
     const session = await stripe.checkout.sessions.create({

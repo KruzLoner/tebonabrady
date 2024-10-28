@@ -11,7 +11,7 @@ const Return = () => {
     const urlParams = new URLSearchParams(queryString);
     const sessionId = urlParams.get('session_id');
 
-    fetch(`http://localhost:3001/session-status?session_id=${sessionId}`)
+    fetch(`http://tebonabrady.vercel.app/session-status?session_id=${sessionId}`)
       .then((res) => res.json())
       .then((data) => {
         setStatus(data.status);
