@@ -15,7 +15,7 @@ const Shop = () => {
     const fetchAllProducts = async () => {
       try {
         console.log('Fetching all products...');
-        const response = await fetch(`${config.apiBaseUrl}api/all-products`);
+        const response = await fetch(`${config.apiBaseUrl}all-products`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

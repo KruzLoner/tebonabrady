@@ -11,7 +11,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         console.log('Fetching spring collection products...');
-        const response = await fetch(`${config.apiBaseUrl}api/products`);
+        const response = await fetch(`${config.apiBaseUrl}products`);
         if (!response.ok) {
           throw new Error('Failed to fetch spring collection');
         }
