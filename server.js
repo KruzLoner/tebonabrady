@@ -10,7 +10,7 @@ const app = express();
 // Configure CORS for both development and production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? ['tebonabrady.vercel.app']
+    ? ['https://brandy-toys.vercel.app']
     : 'http://localhost:3000',
   credentials: true
 };

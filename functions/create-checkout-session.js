@@ -7,6 +7,9 @@ exports.handler = async function(event, context) {
 
   try {
     const { cart } = JSON.parse(event.body);
+    const FRONTEND_URL = process.env.NODE_ENV === 'production'
+      ? 'https://tebonabrady.vercel.app'
+      : 'http://localhost:3000';
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -22,8 +25,8 @@ exports.handler = async function(event, context) {
         quantity: item.quantity,
       })),
       mode: 'payment',
-      success_url: `${process.env.URL}/success`,
-      cancel_url: `${process.env.URL}/cart`,
+      success_url: `${FRONTEND_URL}/success`,
+      cancel_url: `${FRONTEND_URL}/cart`,
     });
 
     return {
